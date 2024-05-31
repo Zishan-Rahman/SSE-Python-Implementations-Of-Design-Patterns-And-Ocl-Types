@@ -30,6 +30,10 @@ class Subject:
 
     def get_data(self) -> int:
         return self.data
+    
+    def clear(self) -> None:
+        self.observers.clear()
+        self.data = 0
 
 @dataclass
 class Observer:
@@ -62,7 +66,7 @@ class ObserverTest:
             self.q.set_data(i)
 
     def reset(self):
-        self.q = field(default_factory=Subject)
+        self.q.clear()
         self.fill()
 
 def main() -> None:
