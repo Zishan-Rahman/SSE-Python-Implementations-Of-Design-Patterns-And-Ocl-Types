@@ -52,12 +52,12 @@ class ObserverTest:
 
     def __post_init__(self) -> None:
         self.fill()
-        self.all_views = self.q.observers
 
     def fill(self) -> None:
         for i in range(self.n_views):
             ox: Observer = Observer(i)
             self.q.add_view(ox)
+        self.all_views = self.q.observers
     
     def test(self) -> None:
         for i, ox in enumerate(self.all_views):
@@ -70,7 +70,7 @@ class ObserverTest:
     def reset(self) -> None:
         self.q = field(default_factory=Subject)
         self.all_views = field(default_factory=list)
-        self.__post_init__()
+        self.fill()
 
 def main() -> None:
     test1 = ObserverTest(8000)

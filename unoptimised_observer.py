@@ -64,7 +64,7 @@ class ObserverTest:
 
     def reset(self):
         self.q = field(default_factory=Subject)
-        self.__post_init__()
+        self.fill()
 
 def main() -> None:
     test1 = ObserverTest(8000)
