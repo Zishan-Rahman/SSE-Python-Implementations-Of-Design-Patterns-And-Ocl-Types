@@ -81,7 +81,7 @@ class SortedListSustainabilityTest(SortedSetSustainabilityTest):
     collection: SortedList = field(default_factory=lambda: SortedList(key=neg))
 
 def main() -> None:
-    number_of_items: int = 40000
+    number_of_items: int = 80000
     test1 = SustainabilityTest(number_of_items)
     test2 = SortedSetSustainabilityTest(number_of_items)
     test3 = SortedListSustainabilityTest(number_of_items)
