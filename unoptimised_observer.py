@@ -55,8 +55,7 @@ class ObserverTest:
 
     def fill(self):
         for i in range(self.n_views):
-            ox: Observer = Observer(i)
-            self.q.add_view(ox)
+            self.q.add_view(Observer(i))
     
     def test(self):
         for i in range(self.n_views):
