@@ -1,5 +1,4 @@
-from sortedcontainers import SortedSet
-# from sortedcontainers import SortedSet, SortedList
+from sortedcontainers import SortedSet, SortedList
 from operator import neg
 from dataclasses import dataclass, field
 from time import perf_counter, sleep
@@ -16,11 +15,10 @@ def rest(secs: float) -> None:
     sleep(secs)
 
 @dataclass
-class SustainabilityTest: # for OCL sequences (SortedList(s))
+class SustainabilityTest: # for OCL sequences (lists)
     addcount: int = 100
     checkcount: int = addcount # Needed to prevent "NameError: name 'checkcount' is not defined"
     collection: list = field(default_factory=list)
-    # collection: SortedList = field(default_factory=lambda: SortedList(key=neg))
     initial_addcount: int = addcount
     initial_checkcount: int = checkcount
 
@@ -33,9 +31,6 @@ class SustainabilityTest: # for OCL sequences (SortedList(s))
 
     # def add_to_collection(self, item) -> None:
     #     self.collection.append(item)
-
-    # Would be using "self.collection.add(self.addcount)" where appropriate if we used SortedList
-    # class from (external) sortedcollections module instead of standard Python list type
 
     def fill(self) -> None:
         while self.addcount > 0:
@@ -78,10 +73,18 @@ class SortedSetSustainabilityTest(SustainabilityTest):
             self.addcount -= 1
         # self.addcount = self.__reset_addcount()
 
+# Inherited from SortedSetSustainabilityTest instead of SustainabilityTest 
+# so its fill method can be inherited without rewriting the whole method 
+# (self.collection.add(self.account) applies to both SortedSet and SortedList)
+@dataclass
+class SortedListSustainabilityTest(SortedSetSustainabilityTest):
+    collection: SortedList = field(default_factory=lambda: SortedList(key=neg))
+
 def main() -> None:
     number_of_items: int = 40000
     test1 = SustainabilityTest(number_of_items)
     test2 = SortedSetSustainabilityTest(number_of_items)
+    test3 = SortedListSustainabilityTest(number_of_items)
     rest(5)
     print(f"Now filling sequence with {test1.addcount} items")
     print(f"Time taken to fill sequence with {test1.addcount} items: {time(test1.fill)}ms")
@@ -94,6 +97,12 @@ def main() -> None:
     rest(5)
     print(f"Now checking through sorted set of {test2.checkcount} items")
     print(f"Time taken to check through sorted set of {test2.checkcount} items: {time(test2.check)}ms")
+    rest(5)
+    print(f"Now filling sorted sequence with {test3.addcount} items")
+    print(f"Time taken to fill sorted sequence with {test3.addcount} items: {time(test3.fill)}ms")
+    rest(5)
+    print(f"Now checking through sorted sequence of {test3.checkcount} items")
+    print(f"Time taken to check through sorted sequence of {test3.checkcount} items: {time(test3.check)}ms")
 
 if __name__=="__main__":
     main()
