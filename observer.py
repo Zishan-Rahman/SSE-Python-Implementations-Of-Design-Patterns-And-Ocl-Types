@@ -52,10 +52,6 @@ class Observer:
 
     def set_subject(self, s: Subject) -> None:
         self.subject = s
-    
-    def set_subject_and_get_observer(self, s: Subject) -> any:
-        self.set_subject(s)
-        return self
 
     def update(self) -> None:
         self.view_state = self.subject.get_data()
