@@ -88,7 +88,7 @@ class ObserverTest:
         self.fill()
 
 def main() -> None:
-    test1 = ObserverTest()
+    test1 = ObserverTest(8000)
     print(f"Time taken to perform test with {test1.n_views} observers for 1 subject: {time(test1.test)}ms")
     test1.fill()
     print(f"Time taken to perform test with {test1.n_views} observers for 1 subject: {time(test1.test)}ms")
