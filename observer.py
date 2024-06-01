@@ -71,7 +71,8 @@ class ObserverTest:
         self.fill()
 
     def fill(self) -> None:
-        self.q.observers = list(map(lambda x: x.set_subject_and_get_observer(self.q), [Observer(i) for i in range(self.n_views)]))
+        for i in range(self.n_views):
+            self.q.add_view(Observer(i))
         self.all_views = self.q.observers
     
     def test(self) -> None:
