@@ -80,11 +80,23 @@ class SortedSetSustainabilityTest(SustainabilityTest):
 class SortedListSustainabilityTest(SortedSetSustainabilityTest):
     collection: SortedList = field(default_factory=lambda: SortedList(key=neg))
 
+@dataclass
+class SpeedySortedListSustainabilityTest(SortedListSustainabilityTest):
+    def fill(self) -> None:
+        proxy: list[int] = list()
+        while self.addcount > 0:
+            proxy.append(self.addcount)
+            self.addcount -= 1
+        self.collection = SortedList(proxy, key=neg)
+        # self.addcount = self.__reset_addcount()
+        
+
 def main() -> None:
     number_of_items: int = 80000
     test1 = SustainabilityTest(number_of_items)
     test2 = SortedSetSustainabilityTest(number_of_items)
     test3 = SortedListSustainabilityTest(number_of_items)
+    test4 = SpeedySortedListSustainabilityTest(number_of_items)
     rest(5)
     print(f"Now filling sequence with {test1.addcount} items")
     print(f"Time taken to fill sequence with {test1.addcount} items: {time(test1.fill)}ms")
@@ -103,6 +115,12 @@ def main() -> None:
     rest(5)
     print(f"Now checking through sorted sequence of {test3.checkcount} items")
     print(f"Time taken to check through sorted sequence of {test3.checkcount} items: {time(test3.check)}ms")
+    rest(5)
+    print(f"Now filling sorted sequence with {test4.addcount} items")
+    print(f"Time taken to fill sorted sequence with {test4.addcount} items: {time(test4.fill)}ms")
+    rest(5)
+    print(f"Now checking through sorted sequence of {test4.checkcount} items")
+    print(f"Time taken to check through sorted sequence of {test4.checkcount} items: {time(test4.check)}ms")
 
 if __name__=="__main__":
     main()
