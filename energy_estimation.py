@@ -26,15 +26,15 @@ def main() -> None:
     # power usage effectiveness - used to factor in repeated computations of an algorithm
     PUE: float = 1.0 # assume average (sources: https://www.42u.com/measurement/pue-dcie.htm, https://www.42u.com/wp-content/uploads/pueEfficiencyDiagram.png)
 
-    # energy consumption estimate (kWh)
-    E: float = t * (nc * Pc * uc + nm * Pm) * PUE * 0.001 # 0.001 = conversion from W to kW
-    print(f"Estimated energy consumption: {E} (kWh)")
+    # energy consumption estimate (mWh)
+    E: float = t * (nc * Pc * uc + nm * Pm) * PUE * 1000 # 1000 = conversion from W to mW
+    print(f"Estimated energy consumption: {E} (mWh)")
 
     # # carbon intensity of energy production (gCO2e/kWh, multiplied from kgCO2e/kWh)
     # CI: float = 0.2249894 * 1000.0 # source: https://www.carbonfootprint.com/docs/2023_07_international_factors_release_11.xlsx (see GB/United Kingdom, Total Production fuel mix factor)
 
     # # carbon footprint estimate (gCO2e)
-    # C: float = E * CI
+    # C: float = (E / 0.000001) * CI # 0.000001 = conversion from mWh to kWh
     # print(f"Estimated carbon footprint: {C} (gCO2e)")
 
 if __name__=="__main__":
